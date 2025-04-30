@@ -1,7 +1,7 @@
 ARG AV_VERSION
 ARG CUDA_VERSION
 ARG CENTOS_VERSION=7
-FROM alicevision/alicevision:main-8a1ef95-rocky-cuda
+FROM alicevision/alicevision:develop-e17a60985-rocky9-cuda12.1.1
 LABEL maintainer="AliceVision Team alicevision-team@googlegroups.com"
 
 # Execute with nvidia docker (https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
