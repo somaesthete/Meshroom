@@ -27,6 +27,7 @@ DEPS_DOCKER_TAG=alicevision/meshroom-deps:${MESHROOM_VERSION}-rocky-cuda${CUDA_V
 
 docker build \
 	--rm \
+	--no-cache \
 	--build-arg "CUDA_VERSION=${CUDA_VERSION}" \
         --tag ${DEPS_DOCKER_TAG} \
         -f docker/Dockerfile_centos_deps .
@@ -37,6 +38,7 @@ DOCKER_TAG=alicevision/meshroom:${MESHROOM_VERSION}-rocky-cuda${CUDA_VERSION}
 
 docker build \
 	--rm \
+	--no-cache \
 	--build-arg "MESHROOM_VERSION=${MESHROOM_VERSION}" \
 	--build-arg "CUDA_VERSION=${CUDA_VERSION}" \
         --tag ${DOCKER_TAG} \
