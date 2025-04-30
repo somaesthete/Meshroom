@@ -1,8 +1,6 @@
 ARG MESHROOM_VERSION
-ARG AV_VERSION
 ARG CUDA_VERSION
-ARG CENTOS_VERSION
-FROM alicevision/meshroom-deps:${MESHROOM_VERSION}-av${AV_VERSION}-centos${CENTOS_VERSION}-cuda${CUDA_VERSION}
+FROM alicevision/meshroom-deps:${MESHROOM_VERSION}-rocky-cuda${CUDA_VERSION}
 LABEL maintainer="AliceVision Team alicevision-team@googlegroups.com"
 
 # Execute with nvidia docker (https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
