@@ -41,19 +41,20 @@ RUN python3 setup.py install_exe -d "${MESHROOM_BUNDLE}" && \
 
 WORKDIR ${MESHROOM_BUILD}
 
-# Install Qt6 development packages and ensure proper path setup
+# Install Qt5 development packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    qt6-base-dev \
-    qt6-declarative-dev \
-    qt6-tools-dev \
-    qt6-tools-dev-tools \
+    qt5-default \
+    qtbase5-dev \
+    qtdeclarative5-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Build Meshroom plugins
 RUN cmake "${MESHROOM_DEV}" \
     -DALICEVISION_ROOT="${AV_INSTALL}" \
     -DCMAKE_INSTALL_PREFIX="${MESHROOM_BUNDLE}/qtPlugins" \
-    -DCMAKE_PREFIX_PATH="${QT_DIR}"
+    -DCMAKE_PREFIX_PATH="/usr/lib/x86_64-linux-gnu/cmake/Qt5"
 
 RUN make "-j$(nproc)" QtAliceVision
 RUN make "-j$(nproc)" && \
