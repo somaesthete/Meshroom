@@ -49,13 +49,14 @@ RUN yum install -y \
         libxkbcommon-x11
 
 # Install Python3
-RUN yum install -y centos-release-scl && yum install -y rh-python36 && source scl_source enable rh-python36 && pip install --upgrade pip
+RUN yum install -y python3 python3-pip && \
+    pip3 install --upgrade pip
 
 COPY ./*requirements.txt ${MESHROOM_DEV}/
 
 # Install Meshroom requirements and freeze bundle
 WORKDIR "${MESHROOM_DEV}"
-RUN source scl_source enable rh-python36 && pip install -r dev_requirements.txt -r requirements.txt
+RUN pip3 install -r dev_requirements.txt -r requirements.txt
 
 # Install Qt (to build plugins)
 WORKDIR /tmp/qt
