@@ -25,6 +25,7 @@ COPY ./bin ${MESHROOM_DEV}/bin
 
 WORKDIR ${MESHROOM_DEV}
 
+
 RUN python3 setup.py install_exe -d "${MESHROOM_BUNDLE}" && \
         find ${MESHROOM_BUNDLE} -name "*Qt5Web*" -delete && \
         find ${MESHROOM_BUNDLE} -name "*Qt5Designer*" -delete && \
@@ -40,8 +41,20 @@ RUN python3 setup.py install_exe -d "${MESHROOM_BUNDLE}" && \
 
 WORKDIR ${MESHROOM_BUILD}
 
+# Install Qt6 development packages and ensure proper path setup
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    qt6-base-dev \
+    qt6-declarative-dev \
+    qt6-tools-dev \
+    qt6-tools-dev-tools \
+    && rm -rf /var/lib/apt/lists/*
+
 # Build Meshroom plugins
-RUN cmake "${MESHROOM_DEV}" -DALICEVISION_ROOT="${AV_INSTALL}" -DCMAKE_INSTALL_PREFIX="${MESHROOM_BUNDLE}/qtPlugins"
+RUN cmake "${MESHROOM_DEV}" \
+    -DALICEVISION_ROOT="${AV_INSTALL}" \
+    -DCMAKE_INSTALL_PREFIX="${MESHROOM_BUNDLE}/qtPlugins" \
+    -DCMAKE_PREFIX_PATH="${QT_DIR}"
+
 RUN make "-j$(nproc)" QtAliceVision
 RUN make "-j$(nproc)" && \
 	rm -rf "${MESHROOM_BUILD}" "${MESHROOM_DEV}" \
